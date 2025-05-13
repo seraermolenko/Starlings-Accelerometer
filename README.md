@@ -8,7 +8,7 @@ Our goal was to transform approximately 20GB of raw CSV files into meaningful in
 This program first intakes raw accelromter data, and cleanes it into a unified parquet files which contian data collected at 100 samples per second. We then use FFT anaylsis to obtain frequency and magnitude data. This process outputs two csv files, containing maginitude and frequency values for X axsis and VeDBA repsectivley. From here, our program allows for different forms of visualzation, categorized into scripts that give you labelled or unlabblled output. These visulazation forms inlcude plotting magnitude and frequency, kmeans clustering, decision tree, and an adjustable manual decision tree. 
 
 **I worked on this project with 1 other student Rachel Lagasse and under supervision from professeors Greg Baker and Tony Williams.**
-![image](https://github.com/Starlings-Accelerometer/archives/contributions.png)
+![contributions image](https://github.com/seraermolenko/Starlings-Accelerometer/raw/main/archives/contributions.png)
 
 
 ## Prerequisites
