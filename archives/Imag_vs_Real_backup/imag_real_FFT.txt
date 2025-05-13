@@ -1,0 +1,148 @@
+
+## Removing from Plotting.py due to overcrowndesss
+
+## Incase we ever need to back track and inspect imaginary and real signals sepratly 
+
+
+# def plotFT(data):
+#     days = ['2020-05-03','2020-05-04','2020-05-05','2020-05-02']
+#     sample_rate = 100 
+#     data_points = 100
+
+#     for day in days:
+#         by_day = data[data.index.date == pd.to_datetime(day).date()]                     # Comparing only the data part of datetime 
+
+#         # Groups the accelerometer collumn by second together and applies a to list function for them
+#         # use 'accX' or 'accY' or 'accZ'
+#         by_second = by_day['accX'].groupby(pd.Grouper(freq='1s')).apply(lambda x: x.tolist())        
+#         mag_results = []
+#         time_stamps = []
+        
+#         for interval in by_second: 
+#             fourier = np.fft.fft(interval)
+#             magnitude = np.abs(fourier) / (sample_rate / 2)                              # maginitude = abs of complex number returned + norm
+#             mag_results.append(magnitude)
+#             #time_stamps.append(interval.index[0])
+
+#         fft_results = np.array(mag_results)                                              # Convert into numpy array  
+       
+#         # Finding the peak magnitude for each interval
+#         max_magnitude_per_interval = np.max(np.abs(fft_results), axis=1)
+#         peak_interval = np.argmax(max_magnitude_per_interval)                            # Gets index of peak interval 
+#         #peak_timestamp = time_stamps[peak_interval] 
+#         #print(f"Strongest peak on {day} occurred at: {peak_timestamp}")
+        
+#         # Finding frequency at peak inerval 
+#         peak_fft = fft_results[peak_interval]
+#         freqs = np.fft.fftfreq(data_points, 1 / sample_rate)
+
+#         # Getting average for whole day 
+#         avg_fft = np.mean(fft_results, axis=0)
+
+#         # Getting overall daily magnitude
+#         overall_magnitude = np.mean(fft_results, axis=0)
+
+
+#         # Looking at whats going on in our strongest peak: MAGNITUDE
+
+#         plt.figure(figsize=(20, 10))
+#         plt.plot(max_magnitude_per_interval)
+#         plt.title(f'Strongest Magnitudes per Second on {day}')
+#         plt.ylabel('Magnitude')
+#         plt.xlabel('Time (Seconds)')
+#         #plt.savefig(f'Strongest_Magnitude_{day}_accX.png')
+
+#         # Looking at whats going on for the whole day: MAGNITUDE
+#         plt.figure(figsize=(20, 10))
+#         plt.plot(overall_magnitude)
+#         plt.title(f'Overall Magnitude for {day}')
+#         plt.ylabel('Magnitude')
+#         plt.xlabel('Frequency Bins')
+#         #plt.savefig(f'Overall_Magnitude_{day}_accX.png')
+
+        
+#         # Looking at whats going on in our strongest peak: FREQUENCY
+
+#         plt.figure(figsize=(20, 10))
+        
+#         plt.subplot(1, 2, 1)
+#         plt.plot(freqs, np.real(peak_fft))
+#         plt.title(f"Real Part of FFT at Peak on {day} ")
+#         plt.xlabel("Frequency (Hz)")
+#         plt.ylabel("Magnitude")
+     
+#         plt.subplot(1, 2, 2)
+#         plt.plot(freqs, np.imag(peak_fft))
+#         plt.title(f"Imaginary Part of FFT at Peak on {day} ")
+#         plt.xlabel("Frequency (Hz)")
+#         plt.ylabel("Magnitude")
+        
+#         #plt.savefig(f'Peak_Frequency_{day}_accX.png')
+
+
+#         # Looking at whats going on for the whole day: FREQUENCY
+
+#         plt.figure(figsize=(20, 10))
+        
+#         plt.subplot(1, 2, 1)
+#         plt.plot(freqs, np.real(avg_fft))
+#         plt.title(f"Real Part of Average FFT on {day}")
+#         plt.xlabel("Frequency (Hz)")
+#         plt.ylabel("Magnitude")
+        
+#         plt.subplot(1, 2, 2)
+#         plt.plot(freqs, np.imag(avg_fft))
+#         plt.title(f"Imaginary Part of Average FFT on {day}")
+#         plt.xlabel("Frequency (Hz)")
+#         plt.ylabel("Magnitude")
+        
+#         #plt.savefig(f'Average_Frequency_{day}_accX.png')
+
+
+for file_path in inputs:
+    files = []
+    if file_path.endswith('.parquet'):
+        print(f'Opening file: {file_path}')
+
+        data = pd.read_parquet(file_path)
+
+        #print(data['Datetime'].dt.date.value_counts())                                 # Lets me know what days, and the values per day
+        #data = data['Datetime'] = pd.to_datetime(data['Datetime'])                     # Converting to dattime (bug error for resample)
+        data = data.set_index('Datetime')                                               # Using timestamp col as index for plotting (plotitng over time)
+
+        #plotData(data)
+        #plotFT(data)
+        print(data.index)
+        day = "2020-05-01
+
+
+
+
+
+
+
+
+f KMeansClustering(data):
+    features = data[['accX', 'accY', 'accZ']]
+
+    scaler = StandardScaler()
+    scaled_features = scaler.fit_transform(features)
+
+    # K-Means Clustering
+    kmeans = KMeans(n_clusters=3, random_state=42)  # 3 clusters
+    kmeans.fit(scaled_features)
+
+    # Add cluster labels to the original data
+    data['Cluster'] = kmeans.labels_
+
+    # Visualize the clusters using PCA for dimensionality reduction
+    pca = PCA(n_components=2)
+    reduced_features = pca.fit_transform(scaled_features)
+
+    plt.figure(figsize=(10, 8))
+    plt.scatter(reduced_features[:, 0], reduced_features[:, 1], c=data['Cluster'], cmap='viridis', alpha=0.5)
+    plt.title('K-Means Clustering of Starling Data')
+    plt.xlabel('PCA Component 1')
+    plt.ylabel('PCA Component 2')
+    plt.colorbar(label='Cluster Label')
+    plt.savefig('kmeans_clusters.png')

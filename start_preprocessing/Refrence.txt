@@ -1,0 +1,2 @@
+Folder iteration in preprocessing.py from: 
+https://stackoverflow.com/questions/29166746/need-a-script-to-iterate-over-files-and-execute-a-command
